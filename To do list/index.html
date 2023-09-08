@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./Image/favicon.ico" style="border-radius: 20px;">
+    <title>TO DO LIST</title>
+    <link rel="stylesheet" href="to do.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Todo Task App</h1>
+    <div id="app"> 
+        <form>
+            <img src="./Image/logo.jpg">
+            <input type="text" placeholder="Enter your task" required id="taskinput" >
+            <button type="submit" id="addbtn" onclick="saveTask()">Add Task</button>
+        </form>
+        <div id="task-box">
+            <ul id="myTaskList">
+                <!-- <li class="task">
+                    <label><p>name</p></label>
+                    <div class="settings">
+                        <i class="fa-fa-pencil-square" aria-hidden="true"></i>
+                        <i class="fa-fa-trash" aria-hidden="true"></i>
+                    </div>
+                </li> -->
+        </div>
+        <div id="pending">
+            <p id="pending-tasks">Pending task:<span id="countvalue">0</span></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
