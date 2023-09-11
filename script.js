@@ -11,7 +11,7 @@ function saveTask(){
 
     event.preventDefault();
     let newTaskInput=document.getElementById("taskinput").value;
-    if (newTaskInput!="" && newTaskInput!="-+/_#@%^&*!?/.,;';:"){
+    if (newTaskInput!==" " && newTaskInput!=="-+/_#@%^&*!?/.,;';:"){
         var todoObj={
             taskId:taskListArray.length+1,
             taskName: newTaskInput
@@ -20,10 +20,10 @@ function saveTask(){
         localStorage.setItem("todoTaskList",JSON.stringify(taskListArray));
         renderTaskList();
     }else{
-        prompt("Enter a valid task input")
+        prompt("Enter a valid task input");
     }
 }
-    
+
 function renderTaskList(){
     taskCount=taskListArray.length
     countValue.innerText=taskCount;
