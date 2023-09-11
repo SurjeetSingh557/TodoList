@@ -21,7 +21,7 @@ h1{
     margin-top: 15px;
     bottom: 10%;
     min-height: 80vh;
-    max-width: 80vw; 
+    min-width: 80vw; 
     border-radius: 5px;
     background-color: antiquewhite;
     border: 2px solid darkslategray;
