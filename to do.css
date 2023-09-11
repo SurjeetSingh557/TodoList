@@ -256,7 +256,7 @@ li{
 #Deletebtn {
     position: absolute;
     bottom: 4px;
-    right: 0px;
+    right: 5px;
     height: 35px;
     width: 120px;
     text-align: center;
