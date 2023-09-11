@@ -15,13 +15,13 @@ h1{
 #app {
     /* Keep the container centered and responsive */
     position: absolute;
-    left: 20%;
-    right: 20%;
-    top:47px;
-    margin-top: 15px;
+    left: 10%;
+    right: 10%;
+    top:37px;
+    margin-top: 10px;
     bottom: 10%;
     min-height: 80vh;
-    max-width: 60vw; 
+    max-width: 70vw; 
     border-radius: 5px;
     background-color: antiquewhite;
     border: 2px solid darkslategray;
