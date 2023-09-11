@@ -78,7 +78,7 @@ img:hover{
 #addbtn{
     display: inline;
     height:37px;
-    width:21vw;
+    width:20vw;
     margin-left:-1px;
     margin-right: 1vw;
     padding-left: 2%;
@@ -95,7 +95,7 @@ img:hover{
 #addbtn:hover{
     height:39px;
     margin-top:-0.5px;
-    width:22vw;
+    width:21vw;
     margin-right:0 .5vw;
     margin-left: 0%;
 }
