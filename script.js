@@ -122,7 +122,7 @@ function editTask(event) {
                 localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
                 renderTaskList();
             } else {
-                alert("Please enter at least 2 characters for the task name.");
+                alert("Input should not start from any special symbol and should have atleast 3 characters");
             }
         }
     });
