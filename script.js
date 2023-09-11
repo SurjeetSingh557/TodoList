@@ -115,9 +115,9 @@ function editTask(event) {
     inputField.addEventListener("keyup", function (e) {
         if (e.key === "Enter") {
             var editedTaskName = inputField.value.trim();
-
+            let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{1,}$/;
             // Check if the edited task name is valid (at least 2 characters)
-            if (editedTaskName.length >= 2) {
+            if (pattern.test(editedTaskName) && editedTaskName.length >= 3) {
                 task.taskName = editedTaskName;
                 localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
                 renderTaskList();
