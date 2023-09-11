@@ -11,14 +11,19 @@ function saveTask(){
 
     event.preventDefault();
     let newTaskInput=document.getElementById("taskinput").value;
-    var todoObj={
-        taskId:taskListArray.length+1,
-        taskName: newTaskInput
+    if (newTaskInput!="" && newTaskInput!="-+/_#@%^&*!?/.,;';:"){
+        var todoObj={
+            taskId:taskListArray.length+1,
+            taskName: newTaskInput
+        }
+        taskListArray.push(todoObj);
+        localStorage.setItem("todoTaskList",JSON.stringify(taskListArray));
+        renderTaskList();
+    }else{
+        prompt("Enter a valid task input")
     }
-    taskListArray.push(todoObj);
-    localStorage.setItem("todoTaskList",JSON.stringify(taskListArray));
-    renderTaskList();
 }
+    
 function renderTaskList(){
     taskCount=taskListArray.length
     countValue.innerText=taskCount;
