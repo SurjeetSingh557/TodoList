@@ -56,7 +56,7 @@ img:hover{
 }
 #taskinput{
     height: 37px;
-    width: 25vw;
+    width: 30vw;
     background-color: lightgray;
     border-top-left-radius: 20px;
     border-bottom-left-radius:20px;
@@ -72,14 +72,14 @@ img:hover{
     height:39px;
     margin-top:-0.5px;
     margin-bottom: 0%;
-    width:26vw;
+    width:31vw;
     margin-left: -.5vw;
 }
 #addbtn{
     display: inline;
     height:37px;
-    min-width:20%;
-    width: 10vw;
+    min-width:22%;
+    width: 13vw;
     margin-left:-1px;
     margin-right: 1vw;
     padding-left: 2%;
