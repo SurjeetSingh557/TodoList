@@ -33,7 +33,6 @@ function renderTaskList(){
         var dynamicLi=document.createElement("li");
         dynamicLi.classList.add("task");
         dynamicLi.style.listStyle = "none";
-
         var myLabel=document.createElement("label");
         var myPara=document.createElement("p");
         myPara.textContent=taskListArray[index].taskName;
@@ -53,11 +52,17 @@ function renderTaskList(){
         if (taskListArray[index].completed) {
             taskCheckbox.checked = true;
             dynamicLi.style.backgroundColor = "lightblue";
-            taskCount-=1
+            
 
         }else{
             taskCheckbox.checked = false;
         }
+        for (var i=0;i<taskListArray.length;i++){
+            if (taskListArray[i].completed){
+                taskCount-=1
+            }
+        }
+        
         countValue.innerText=taskCount;
         var editIcon=document.createElement("i");
         editIcon.classList.add("fa-regular");
