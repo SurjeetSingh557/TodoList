@@ -53,7 +53,7 @@ function renderTaskList(){
         if (taskListArray[index].completed) {
             taskCheckbox.checked = true;
             dynamicLi.style.backgroundColor = "lightblue";
-            taskcount-=1
+            taskCount-=1
 
         }else{
             taskCheckbox.checked = false;
