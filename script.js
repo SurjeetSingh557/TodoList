@@ -26,7 +26,6 @@ function saveTask() {
 
 function renderTaskList(){
     taskCount=taskListArray.length
-    countValue.innerText=taskCount;
     var lengthofarray=taskListArray.length
     document.getElementById("myTaskList").innerHTML="";
     for(var index=0;index<lengthofarray ; index++){
@@ -54,10 +53,12 @@ function renderTaskList(){
         if (taskListArray[index].completed) {
             taskCheckbox.checked = true;
             dynamicLi.style.backgroundColor = "lightblue";
+            taskcount-=1
 
         }else{
             taskCheckbox.checked = false;
         }
+        countValue.innerText=taskCount;
         var editIcon=document.createElement("i");
         editIcon.classList.add("fa-regular");
         editIcon.classList.add("fa-pen-to-square");
