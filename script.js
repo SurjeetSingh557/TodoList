@@ -57,7 +57,7 @@ function renderTaskList(){
         }else{
             taskCheckbox.checked = false;
         }
-        if (taskListArray[index].completed){
+        if (taskCheckbox.checked==true){
             taskCount-=1
         }
         var editIcon=document.createElement("i");
