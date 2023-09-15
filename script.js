@@ -57,13 +57,9 @@ function renderTaskList(){
         }else{
             taskCheckbox.checked = false;
         }
-        for (var i=0;i<taskListArray.length;i++){
-            if (taskListArray[i].completed){
-                taskCount-=1
-            }
+        if (taskListArray[index].completed){
+            taskCount-=1
         }
-        
-        countValue.innerText=taskCount;
         var editIcon=document.createElement("i");
         editIcon.classList.add("fa-regular");
         editIcon.classList.add("fa-pen-to-square");
@@ -89,7 +85,7 @@ function renderTaskList(){
         dynamicLi.appendChild(myDiv);
         document.getElementById("myTaskList").appendChild(dynamicLi);
     }
-    
+    countValue.innerText=taskCount;
 }
 function deleteTask(event){
     var index= taskListArray.findIndex(m=>m.taskId==event.target.taskId);
