@@ -3,33 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico"">
-    <title>TO DO LIST</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Awesome Todo App</title>
     <link rel="stylesheet" href="to do.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Todo Task App</h1>
-    <div id="app"> 
-        <form>
-            <img src="./logo.jpg">
-            <input type="text" required placeholder="Enter your task" id="taskinput" >
-            <button type="submit" id="addbtn" onclick="saveTask()">Add Task</button>
-        </form>
-        <div id="task-box">
-            <ul id="myTaskList">
-                <!-- <li class="task">
-                    <label><p>name</p></label>
-                    <div class="settings">
-                        <i class="fa-fa-pencil-square" aria-hidden="true"></i>
-                        <i class="fa-fa-trash" aria-hidden="true"></i>
-                    </div>
-                </li> -->
+    <div class="container">
+        <h1>Awesome Todo App</h1>
+        <div id="app-card">
+            <form id="taskForm">
+                <img src="./logo.jpg" alt="App Logo">
+                <input type="text" required placeholder="Enter your task" id="taskInput">
+                <button type="submit" id="addTaskBtn">Add Task</button>
+            </form>
+            <div id="tasks-wrapper">
+                <ul id="myTaskList">
+                    </ul>
+            </div>
+            <div id="app-footer">
+                <p id="pending-tasks">Pending tasks: <span id="countValue">0</span></p>
+                <button type="button" onclick="removeAll()" id="clearAllBtn">Clear All</button>
+            </div>
         </div>
-        <div id="pending">
-            <p id="pending-tasks">Pending task:<span id="countvalue">0</span></p>
-        </div>
-        <button type="submit" onclick="removeAll()" id="Deletebtn">Delete</button>
     </div>
     <script src="script.js"></script>
 </body>
