@@ -1,160 +1,182 @@
-const countValue=document.getElementById("countvalue");
-var taskListArray=[];
-let taskCount=taskListArray.length;
-var isLocalDataPressent=localStorage.getItem("todoTaskList");
-if (isLocalDataPressent!==null){
-    taskListArray=JSON.parse(isLocalDataPressent);
-    taskCount=taskListArray.length
-    renderTaskList();
+const countValue = document.getElementById("countValue");
+var taskListArray = [];
+let taskCount = 0; // Initialize to 0, will be updated based on loaded tasks
+
+// Load data from localStorage on page load
+const isLocalDataPresent = localStorage.getItem("todoTaskList");
+if (isLocalDataPresent !== null) {
+    taskListArray = JSON.parse(isLocalDataPresent);
+    renderTaskList(); // Render tasks after loading
 }
-function saveTask() {
-    event.preventDefault();
-    let newTaskInput = document.getElementById("taskinput").value;
-    let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{1,}$/;
-    if (pattern.test(newTaskInput) && newTaskInput.length>=3) {
+
+// Event listener for form submission
+document.getElementById("taskForm").addEventListener("submit", saveTask);
+
+function saveTask(event) {
+    event.preventDefault(); // Prevent default form submission
+    let newTaskInput = document.getElementById("taskInput").value.trim(); // Trim whitespace
+    let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{2,}$/; // Adjusted pattern for at least 3 characters after first character
+
+    if (pattern.test(newTaskInput)) {
         var todoObj = {
-            taskId: taskListArray.length + 1,
-            taskName: newTaskInput
+            // Assign a unique ID using current timestamp to avoid duplicates if tasks are added quickly
+            taskId: Date.now(),
+            taskName: newTaskInput,
+            completed: false // Add a completed status
         }
         taskListArray.push(todoObj);
         localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
+        document.getElementById("taskInput").value = ""; // Clear the input field
         renderTaskList();
     } else {
-        alert("Input should not start from any special symbol and should have atleast 3 characters");
+        alert("Task should not start with a special symbol and must have at least 3 characters.");
     }
 }
 
-function renderTaskList(){
-    taskCount=taskListArray.length
-    var lengthofarray=taskListArray.length
-    document.getElementById("myTaskList").innerHTML="";
-    for(var index=0;index<lengthofarray ; index++){
-        
-        var dynamicLi=document.createElement("li");
-        dynamicLi.classList.add("task");
-        dynamicLi.style.listStyle = "none";
-        var myLabel=document.createElement("label");
-        var myPara=document.createElement("p");
-        myPara.textContent=taskListArray[index].taskName;
-        myLabel.appendChild(myPara);
-        dynamicLi.appendChild(myLabel);
+function renderTaskList() {
+    document.getElementById("myTaskList").innerHTML = ""; // Clear existing tasks
+    taskCount = 0; // Reset task count before re-rendering
 
-        var myDiv=document.createElement("div");
-        myDiv.classList.add("settings");
+    if (taskListArray.length === 0) {
+        document.getElementById("myTaskList").innerHTML = "<p style='text-align: center; color: #888;'>No tasks to display yet!</p>";
+    } else {
+        for (var index = 0; index < taskListArray.length; index++) {
+            var dynamicLi = document.createElement("li");
+            dynamicLi.classList.add("task");
 
-        var taskCheckbox = document.createElement("input");
-        taskCheckbox.classList.add("Check-box");
-        taskCheckbox.type = "checkbox";
-        taskCheckbox.classList.add("task-checkbox");
-        taskCheckbox.addEventListener("change",checKBoxUtility);
-        taskCheckbox.taskId=taskListArray[index].taskId;
-        dynamicLi.taskId=taskListArray[index].taskId;
-        if (taskListArray[index].completed) {
-            taskCheckbox.checked = true;
-            dynamicLi.style.backgroundColor = "lightblue";
-            
+            var myLabel = document.createElement("label");
+            var taskCheckbox = document.createElement("input");
+            taskCheckbox.type = "checkbox";
+            taskCheckbox.classList.add("task-checkbox");
+            taskCheckbox.addEventListener("change", checKBoxUtility);
+            taskCheckbox.dataset.taskId = taskListArray[index].taskId; // Use dataset for task ID
 
-        }else{
-            taskCheckbox.checked = false;
+            var myPara = document.createElement("p");
+            myPara.textContent = taskListArray[index].taskName;
+
+            myLabel.appendChild(taskCheckbox);
+            myLabel.appendChild(myPara);
+            dynamicLi.appendChild(myLabel);
+
+            var myDiv = document.createElement("div");
+            myDiv.classList.add("settings");
+
+            var editIcon = document.createElement("i");
+            editIcon.classList.add("fa-regular", "fa-pen-to-square", "edit");
+            editIcon.addEventListener("click", editTask);
+            editIcon.dataset.taskId = taskListArray[index].taskId; // Use dataset for task ID
+
+            var deleteIcon = document.createElement("i");
+            deleteIcon.classList.add("fa-solid", "fa-trash", "delete"); // Changed icon to fa-trash for better visual
+            deleteIcon.addEventListener("click", deleteTask);
+            deleteIcon.dataset.taskId = taskListArray[index].taskId; // Use dataset for task ID
+
+            myDiv.appendChild(editIcon);
+            myDiv.appendChild(deleteIcon);
+            dynamicLi.appendChild(myDiv);
+
+            // Apply completed styles and update checkbox state
+            if (taskListArray[index].completed) {
+                taskCheckbox.checked = true;
+                dynamicLi.classList.add("completed");
+            } else {
+                taskCount++; // Only count incomplete tasks as pending
+            }
+
+            document.getElementById("myTaskList").appendChild(dynamicLi);
         }
-        if (taskCheckbox.checked==true){
-            taskCount-=1
-        }
-        var editIcon=document.createElement("i");
-        editIcon.classList.add("fa-regular");
-        editIcon.classList.add("fa-pen-to-square");
-        editIcon.classList.add("fa-2xl");
-        editIcon.classList.add("edit");
-        editIcon.addEventListener("click",editTask);
-        editIcon.taskId=taskListArray[index].taskId;
-        
-        
-        var deleteIcon=document.createElement("i");    
-        deleteIcon.classList.add("fa-solid");
-        deleteIcon.classList.add("fa-delete-left");
-        deleteIcon.classList.add("fa-2xl");
-        deleteIcon.classList.add("delete");
-        deleteIcon.addEventListener("click",deleteTask);
-        deleteIcon.taskId=taskListArray[index].taskId
-
-        
-
-        myDiv.appendChild(taskCheckbox);
-        myDiv.appendChild(editIcon);
-        myDiv.appendChild(deleteIcon);
-        dynamicLi.appendChild(myDiv);
-        document.getElementById("myTaskList").appendChild(dynamicLi);
     }
-    countValue.innerText=taskCount;
+    countValue.innerText = taskCount;
 }
-function deleteTask(event){
-    var index= taskListArray.findIndex(m=>m.taskId==event.target.taskId);
-    taskListArray.splice(index,1);
-    localStorage.setItem("todoTaskList",JSON.stringify(taskListArray));
+
+function deleteTask(event) {
+    const taskIdToDelete = parseInt(event.target.dataset.taskId); // Parse to integer
+    taskListArray = taskListArray.filter(task => task.taskId !== taskIdToDelete);
+    localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
     renderTaskList();
 }
+
 function editTask(event) {
-    // Get the task element
-    var taskElement = event.target.parentElement.parentElement;
-    var taskId = event.target.taskId;
-    
-    // Find the task object
-    var taskIndex = taskListArray.findIndex(m => m.taskId == taskId);
+    var taskElement = event.target.closest(".task"); // Use closest to get the task li element
+    var taskId = parseInt(event.target.dataset.taskId);
+
+    var taskIndex = taskListArray.findIndex(m => m.taskId === taskId);
     var task = taskListArray[taskIndex];
 
-    // Create an input field for editing
+    var label = taskElement.querySelector("label");
+    var currentParagraph = label.querySelector("p");
+
+    // Hide current paragraph and checkbox
+    currentParagraph.style.display = "none";
+    taskElement.querySelector(".task-checkbox").style.display = "none";
+
+
     var inputField = document.createElement("input");
     inputField.type = "text";
     inputField.value = task.taskName;
     inputField.classList.add("editInput");
-
-    // Replace the task name with the input field
-    var label = taskElement.querySelector("label");
-    label.textContent = ""; // Clear the label content
     label.appendChild(inputField);
 
-    // Add an event listener to save the edited task on Enter key press
+    inputField.focus();
+
     inputField.addEventListener("keyup", function (e) {
         if (e.key === "Enter") {
             var editedTaskName = inputField.value.trim();
-            let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{1,}$/;
-            // Check if the edited task name is valid (at least 2 characters)
-            if (pattern.test(editedTaskName) && editedTaskName.length >= 3) {
+            let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{2,}$/;
+
+            if (pattern.test(editedTaskName)) {
                 task.taskName = editedTaskName;
                 localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
-                renderTaskList();
+                renderTaskList(); // Re-render to show updated task and restore layout
             } else {
-                alert("Input should not start from any special symbol and should have atleast 3 characters");
+                alert("Task should not start with a special symbol and must have at least 3 characters.");
+                // Revert to original state if invalid
+                inputField.remove();
+                currentParagraph.style.display = "block";
+                taskElement.querySelector(".task-checkbox").style.display = "block";
             }
         }
     });
 
-    // Focus on the input field for editing
-    inputField.focus();
+    // Handle blur event to save if user clicks outside
+    inputField.addEventListener("blur", function() {
+        var editedTaskName = inputField.value.trim();
+        let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{2,}$/;
+
+        if (pattern.test(editedTaskName)) {
+            task.taskName = editedTaskName;
+            localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
+            renderTaskList();
+        } else {
+             // Revert to original state if invalid on blur
+            inputField.remove();
+            currentParagraph.style.display = "block";
+            taskElement.querySelector(".task-checkbox").style.display = "block";
+        }
+    });
 }
+
 function checKBoxUtility(event) {
-    var taskId = event.target.parentElement.parentElement.querySelector(".edit").taskId;
-    var taskIndex = taskListArray.findIndex(m => m.taskId == taskId);
+    const taskId = parseInt(event.target.dataset.taskId);
+    const taskIndex = taskListArray.findIndex(m => m.taskId === taskId);
     taskListArray[taskIndex].completed = event.target.checked;
 
-    // Update the background color based on checkbox state
-    var taskElement = event.target.parentElement.parentElement;
+    const taskElement = event.target.closest(".task"); // Get the parent li element
+
     if (event.target.checked) {
-        taskElement.style.backgroundColor = "lightblue";
+        taskElement.classList.add("completed");
     } else {
-        taskElement.style.backgroundColor = "violet";
-    }
-    if (event.target.checked) {
-        taskElement.classList.remove("hover-effect");
-    } else {
-        taskElement.classList.add("hover-effect");
+        taskElement.classList.remove("completed");
     }
 
     localStorage.setItem("todoTaskList", JSON.stringify(taskListArray));
-    renderTaskList()
+    renderTaskList(); // Re-render to update pending task count
 }
-function removeAll(){
-    taskListArray.splice(0);
-    localStorage.setItem("todoTaskList",JSON.stringify(taskListArray));
-    renderTaskList()
+
+function removeAll() {
+    if (confirm("Are you sure you want to clear all tasks?")) { // Confirmation dialog
+        taskListArray = []; // Empty the array
+        localStorage.removeItem("todoTaskList"); // Remove from local storage
+        renderTaskList();
+    }
 }
