@@ -15,7 +15,7 @@ document.getElementById("taskForm").addEventListener("submit", saveTask);
 function saveTask(event) {
     event.preventDefault(); // Prevent default form submission
     let newTaskInput = document.getElementById("taskInput").value.trim(); // Trim whitespace
-    let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{2,}$/; // Adjusted pattern for at least 3 characters after first character
+    let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s.,!?'"-]{2,}$/; // Adjusted pattern for at least 3 characters after first character
 
     if (pattern.test(newTaskInput)) {
         var todoObj = {
@@ -122,7 +122,7 @@ function editTask(event) {
     inputField.addEventListener("keyup", function (e) {
         if (e.key === "Enter") {
             var editedTaskName = inputField.value.trim();
-            let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{2,}$/;
+            let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s.,!?'"-]{2,}$/;
 
             if (pattern.test(editedTaskName)) {
                 task.taskName = editedTaskName;
@@ -141,7 +141,7 @@ function editTask(event) {
     // Handle blur event to save if user clicks outside
     inputField.addEventListener("blur", function() {
         var editedTaskName = inputField.value.trim();
-        let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s]{2,}$/;
+        let pattern = /^[a-zA-Z0-9][a-zA-Z0-9\s.,!?'"-]{2,}$/;
 
         if (pattern.test(editedTaskName)) {
             task.taskName = editedTaskName;
